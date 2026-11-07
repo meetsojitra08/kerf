@@ -36,6 +36,7 @@ app.include_router(auth_router, prefix="/v1")
 app.include_router(projects_router, prefix="/v1")
 
 
+@app.get("/health")
 @app.get("/healthz")
 async def healthz() -> dict[str, str]:
     return {"status": "ok", "app": "kerf-api"}
