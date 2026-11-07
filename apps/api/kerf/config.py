@@ -30,6 +30,7 @@ class Settings(BaseSettings):
         return self.TEST_DATABASE_URL if self.TESTING else self.DATABASE_URL
 
     S3_ENDPOINT: str = "http://localhost:9010"
+    S3_PUBLIC_ENDPOINT: str = "http://localhost:9010"
     S3_ACCESS_KEY: str = "minioadmin"
     S3_SECRET_KEY: str = "minioadmin"
     S3_BUCKET: str = "kerf-media"
