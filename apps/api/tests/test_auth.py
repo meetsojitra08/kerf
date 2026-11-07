@@ -1,3 +1,5 @@
+import uuid
+
 import pytest
 from httpx import ASGITransport, AsyncClient
 from kerf.db.session import init_db
@@ -30,3 +32,15 @@ async def test_auth_flow() -> None:
         # 3. Unauthenticated request rejected
         unauth_res = await client.get("/v1/auth/me")
         assert unauth_res.status_code == 401
+
+        # 4. Explicit registration flow
+        reg_email = f"new_director_{uuid.uuid4().hex[:8]}@kerf.dev"
+        reg_res = await client.post("/v1/auth/register", json={"email": reg_email})
+        assert reg_res.status_code == 201
+        reg_data = reg_res.json()
+        assert reg_data["user"]["email"] == reg_email
+        assert "access_token" in reg_data
+
+        # 5. Duplicate registration rejected with 409 Conflict
+        dup_res = await client.post("/v1/auth/register", json={"email": reg_email})
+        assert dup_res.status_code == 409

@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from kerf.auth.security import create_access_token, get_current_user
 from kerf.db.session import get_db
 from kerf.models.user import User
@@ -13,6 +13,10 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 class LoginRequest(BaseModel):
+    email: EmailStr
+
+
+class RegisterRequest(BaseModel):
     email: EmailStr
 
 
@@ -41,6 +45,35 @@ async def login(req: LoginRequest, db: AsyncSession = Depends(get_db)) -> LoginR
         db.add(user)
         await db.commit()
         await db.refresh(user)
+
+    token = create_access_token(user_id=user.id, email=user.email)
+    return LoginResponse(
+        access_token=token,
+        token_type="bearer",
+        user=UserResponse.model_validate(user),
+    )
+
+
+@router.post(
+    "/register",
+    response_model=LoginResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def register(
+    req: RegisterRequest, db: AsyncSession = Depends(get_db)
+) -> LoginResponse:
+    result = await db.execute(select(User).where(User.email == req.email))
+    existing = result.scalar_one_or_none()
+    if existing is not None:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="User with this email already exists",
+        )
+
+    user = User(id=uuid.uuid4(), email=req.email)
+    db.add(user)
+    await db.commit()
+    await db.refresh(user)
 
     token = create_access_token(user_id=user.id, email=user.email)
     return LoginResponse(

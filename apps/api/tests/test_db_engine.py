@@ -8,11 +8,13 @@ def test_engine_pool_selection() -> None:
     settings.TESTING = True
     test_eng = get_engine()
     assert isinstance(test_eng.pool, NullPool)
+    assert test_eng.url.database == "kerf_test"
 
     # 2. Under production configuration
     settings.TESTING = False
     prod_eng = get_engine()
     assert isinstance(prod_eng.pool, AsyncAdaptedQueuePool)
+    assert prod_eng.url.database == "kerf"
 
     # Restore test configuration
     settings.TESTING = True

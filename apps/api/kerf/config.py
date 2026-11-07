@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     DATABASE_URL: str = "postgresql+asyncpg://kerf:kerf_secret@localhost:5434/kerf"
+    TEST_DATABASE_URL: str = (
+        "postgresql+asyncpg://kerf:kerf_secret@localhost:5434/kerf_test"
+    )
     REDIS_URL: str = "redis://localhost:6379/0"
 
     JWT_SECRET: str = "dev_kerf_jwt_secret_key_change_in_production_min32chars"
@@ -21,6 +24,10 @@ class Settings(BaseSettings):
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
     TESTING: bool = _is_testing()
+
+    @property
+    def ACTIVE_DATABASE_URL(self) -> str:
+        return self.TEST_DATABASE_URL if self.TESTING else self.DATABASE_URL
 
     S3_ENDPOINT: str = "http://localhost:9010"
     S3_ACCESS_KEY: str = "minioadmin"
