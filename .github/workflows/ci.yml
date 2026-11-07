@@ -57,47 +57,27 @@ jobs:
   test:
     name: Test Suite
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: pgvector/pgvector:pg16
-        env:
-          POSTGRES_USER: kerf
-          POSTGRES_PASSWORD: kerf_secret
-          POSTGRES_DB: kerf
-        ports:
-          - 5434:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-      redis:
-        image: redis:7-alpine
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-      minio:
-        image: ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9
-        ports:
-          - 9010:9000
-        env:
-          MINIO_ROOT_USER: minioadmin
-          MINIO_ROOT_PASSWORD: minioadmin
-          MINIO_API_CORS_ALLOW_ORIGIN: "*"
-        options: >-
-          --health-cmd "bash -c 'exec 3<>/dev/tcp/localhost/9000'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Start Docker Services
+        run: |
+          docker compose up -d
+          # Wait for healthy services
+          timeout=30
+          while [ $timeout -gt 0 ]; do
+            if docker compose ps | grep -E "(healthy|Exit 0)"; then
+              echo "Services initializing..."
+            fi
+            if docker compose ps kerf-postgres | grep -q "healthy" && docker compose ps kerf-redis | grep -q "healthy" && docker compose ps kerf-minio | grep -q "healthy"; then
+              echo "All services healthy!"
+              break
+            fi
+            sleep 2
+            timeout=$((timeout - 2))
+          done
+          docker compose ps
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
