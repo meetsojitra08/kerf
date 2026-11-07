@@ -60,7 +60,7 @@ jobs:
           POSTGRES_PASSWORD: kerf_secret
           POSTGRES_DB: kerf
         ports:
-          - 5432:5432
+          - 5434:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -73,6 +73,19 @@ jobs:
           - 6379:6379
         options: >-
           --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      minio:
+        image: ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9
+        ports:
+          - 9010:9000
+        env:
+          MINIO_ROOT_USER: minioadmin
+          MINIO_ROOT_PASSWORD: minioadmin
+        options: >-
+          --health-cmd "bash -c 'exec 3<>/dev/tcp/localhost/9000'"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5

@@ -14,5 +14,11 @@ class Settings(BaseSettings):
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
 
+    S3_ENDPOINT: str = "http://localhost:9010"
+    S3_ACCESS_KEY: str = "minioadmin"
+    S3_SECRET_KEY: str = "minioadmin"
+    S3_BUCKET: str = "kerf-media"
+    S3_REGION: str = "us-east-1"
+
 
 settings = Settings()
