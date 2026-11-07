@@ -22,7 +22,7 @@ describe('Design System Audit & /ui-review Compliance', () => {
     expect(tokens).toContain('--rule: #2F2F27');
     expect(tokens).toContain('--text-0: #ECE9DF');
     expect(tokens).toContain('--text-1: #B9B5A6');
-    expect(tokens).toContain('--text-2: #7E7B6E');
+    expect(tokens).toContain('--text-2: #8D8A7D');
     expect(tokens).toContain('--cut: #FF4A2B');
     expect(tokens).toContain('--agent: #D8C46A');
     expect(tokens).toContain('--ok: #7FB685');

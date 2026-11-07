@@ -16,7 +16,7 @@ Warm neutrals (slightly brown-green graphite), never blue-black.
 --rule:   #2F2F27   hairlines (1px)
 --text-0: #ECE9DF   primary (warm paper)
 --text-1: #B9B5A6   secondary
---text-2: #7E7B6E   tertiary / disabled
+--text-2: #8D8A7D   tertiary / disabled (WCAG AA compliant >= 4.9:1 on bg-0..bg-2)
 --cut:    #FF4A2B   signature accent: playhead, cut line, primary action (use sparingly)
 --cut-dim:#FF4A2B22
 --agent:  #D8C46A   agent authorship (ochre) used ONLY for agent-originated marks

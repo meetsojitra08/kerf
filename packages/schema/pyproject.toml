@@ -4,7 +4,8 @@ version = "0.1.0"
 description = "Kerf schema package"
 requires-python = ">=3.11"
 dependencies = [
-    "pydantic>=2.7.0"
+    "pydantic>=2.7.0",
+    "datamodel-code-generator>=0.25.0"
 ]
 
 [build-system]

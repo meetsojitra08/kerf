@@ -12,7 +12,7 @@ export const COLORS = {
 
   text0: '#ECE9DF',
   text1: '#B9B5A6',
-  text2: '#7E7B6E',
+  text2: '#8D8A7D',
 
   cut: '#FF4A2B',
   cutDim: 'rgba(255, 74, 43, 0.133)',
