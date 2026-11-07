@@ -64,16 +64,14 @@ jobs:
       - name: Start Docker Services
         run: |
           docker compose up -d
-          # Wait for healthy services
+          # Wait for services to be ready
           timeout=30
           while [ $timeout -gt 0 ]; do
-            if docker compose ps | grep -E "(healthy|Exit 0)"; then
-              echo "Services initializing..."
-            fi
-            if docker compose ps kerf-postgres | grep -q "healthy" && docker compose ps kerf-redis | grep -q "healthy" && docker compose ps kerf-minio | grep -q "healthy"; then
-              echo "All services healthy!"
+            if docker compose exec -T postgres pg_isready -U kerf > /dev/null 2>&1 && docker compose exec -T redis redis-cli ping > /dev/null 2>&1; then
+              echo "Services ready!"
               break
             fi
+            echo "Waiting for services..."
             sleep 2
             timeout=$((timeout - 2))
           done

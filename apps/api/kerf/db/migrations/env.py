@@ -21,9 +21,8 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 # access to the values within the .ini file in use.
 config = context.config
 
-# Dynamically set DB URL from application settings if not explicitly provided
-if not config.get_main_option("sqlalchemy.url"):
-    config.set_main_option("sqlalchemy.url", settings.ACTIVE_DATABASE_URL)
+# Dynamically set DB URL from application settings
+config.set_main_option("sqlalchemy.url", settings.ACTIVE_DATABASE_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
