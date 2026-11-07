@@ -1,0 +1,223 @@
+{
+  "font_audit": {
+    "instrumentSans": true,
+    "jetbrainsMono": true,
+    "fraunces": true,
+    "loadedFonts": [
+      {
+        "family": "Instrument Sans",
+        "status": "loaded",
+        "weight": "400 700"
+      },
+      {
+        "family": "JetBrains Mono",
+        "status": "loaded",
+        "weight": "400 700"
+      },
+      {
+        "family": "Fraunces",
+        "status": "loaded",
+        "weight": "400 700"
+      }
+    ]
+  },
+  "pixel_coverage": [
+    {
+      "viewport": "1280px",
+      "mode": "default",
+      "filename": "screenshot_1280_default.png",
+      "width": 1280,
+      "height": 800,
+      "total_pixels": 1024000,
+      "cut_pixels": 1369,
+      "cut_percentage": 0.1337,
+      "pass_budget": true
+    },
+    {
+      "viewport": "1280px",
+      "mode": "collapsed",
+      "filename": "screenshot_1280_collapsed.png",
+      "width": 1280,
+      "height": 800,
+      "total_pixels": 1024000,
+      "cut_pixels": 743,
+      "cut_percentage": 0.0726,
+      "pass_budget": true
+    },
+    {
+      "viewport": "1280px",
+      "mode": "focus",
+      "filename": "screenshot_1280_focus.png",
+      "width": 1280,
+      "height": 800,
+      "total_pixels": 1024000,
+      "cut_pixels": 311,
+      "cut_percentage": 0.0304,
+      "pass_budget": true
+    },
+    {
+      "viewport": "1728px",
+      "mode": "default",
+      "filename": "screenshot_1728_default.png",
+      "width": 1728,
+      "height": 1080,
+      "total_pixels": 1866240,
+      "cut_pixels": 1369,
+      "cut_percentage": 0.0734,
+      "pass_budget": true
+    },
+    {
+      "viewport": "1728px",
+      "mode": "collapsed",
+      "filename": "screenshot_1728_collapsed.png",
+      "width": 1728,
+      "height": 1080,
+      "total_pixels": 1866240,
+      "cut_pixels": 743,
+      "cut_percentage": 0.0398,
+      "pass_budget": true
+    },
+    {
+      "viewport": "1728px",
+      "mode": "focus",
+      "filename": "screenshot_1728_focus.png",
+      "width": 1728,
+      "height": 1080,
+      "total_pixels": 1866240,
+      "cut_pixels": 311,
+      "cut_percentage": 0.0167,
+      "pass_budget": true
+    },
+    {
+      "viewport": "2560px",
+      "mode": "default",
+      "filename": "screenshot_2560_default.png",
+      "width": 2560,
+      "height": 1440,
+      "total_pixels": 3686400,
+      "cut_pixels": 1369,
+      "cut_percentage": 0.0371,
+      "pass_budget": true
+    },
+    {
+      "viewport": "2560px",
+      "mode": "collapsed",
+      "filename": "screenshot_2560_collapsed.png",
+      "width": 2560,
+      "height": 1440,
+      "total_pixels": 3686400,
+      "cut_pixels": 743,
+      "cut_percentage": 0.0202,
+      "pass_budget": true
+    },
+    {
+      "viewport": "2560px",
+      "mode": "focus",
+      "filename": "screenshot_2560_focus.png",
+      "width": 2560,
+      "height": 1440,
+      "total_pixels": 3686400,
+      "cut_pixels": 311,
+      "cut_percentage": 0.0084,
+      "pass_budget": true
+    }
+  ],
+  "contrast_matrix": {
+    "--bg-0": {
+      "--text-0": {
+        "hex": "#ECE9DF",
+        "ratio": 15.91,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      },
+      "--text-1": {
+        "hex": "#B9B5A6",
+        "ratio": 9.41,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      },
+      "--text-2": {
+        "hex": "#7E7B6E",
+        "ratio": 4.55,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      },
+      "--cut": {
+        "hex": "#FF4A2B",
+        "ratio": 5.77,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      },
+      "--agent": {
+        "hex": "#D8C46A",
+        "ratio": 11.06,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      }
+    },
+    "--bg-1": {
+      "--text-0": {
+        "hex": "#ECE9DF",
+        "ratio": 15.06,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      },
+      "--text-1": {
+        "hex": "#B9B5A6",
+        "ratio": 8.91,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      },
+      "--text-2": {
+        "hex": "#7E7B6E",
+        "ratio": 4.31,
+        "passes_normal_aa": false,
+        "passes_large_ui_aa": true
+      },
+      "--cut": {
+        "hex": "#FF4A2B",
+        "ratio": 5.46,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      },
+      "--agent": {
+        "hex": "#D8C46A",
+        "ratio": 10.47,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      }
+    },
+    "--bg-2": {
+      "--text-0": {
+        "hex": "#ECE9DF",
+        "ratio": 14.07,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      },
+      "--text-1": {
+        "hex": "#B9B5A6",
+        "ratio": 8.32,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      },
+      "--text-2": {
+        "hex": "#7E7B6E",
+        "ratio": 4.03,
+        "passes_normal_aa": false,
+        "passes_large_ui_aa": true
+      },
+      "--cut": {
+        "hex": "#FF4A2B",
+        "ratio": 5.1,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      },
+      "--agent": {
+        "hex": "#D8C46A",
+        "ratio": 9.79,
+        "passes_normal_aa": true,
+        "passes_large_ui_aa": true
+      }
+    }
+  }
+}

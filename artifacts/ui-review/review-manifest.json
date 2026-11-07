@@ -1,0 +1,57 @@
+{
+  "fontAudit": {
+    "instrumentSans": true,
+    "jetbrainsMono": true,
+    "fraunces": true,
+    "loadedFonts": [
+      {
+        "family": "Instrument Sans",
+        "status": "loaded",
+        "weight": "400 700"
+      },
+      {
+        "family": "JetBrains Mono",
+        "status": "loaded",
+        "weight": "400 700"
+      },
+      {
+        "family": "Fraunces",
+        "status": "loaded",
+        "weight": "400 700"
+      }
+    ]
+  },
+  "results": [
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800,
+        "label": "1280px"
+      },
+      "default": "screenshot_1280_default.png",
+      "collapsed": "screenshot_1280_collapsed.png",
+      "focus": "screenshot_1280_focus.png"
+    },
+    {
+      "viewport": {
+        "width": 1728,
+        "height": 1080,
+        "label": "1728px"
+      },
+      "default": "screenshot_1728_default.png",
+      "collapsed": "screenshot_1728_collapsed.png",
+      "focus": "screenshot_1728_focus.png"
+    },
+    {
+      "viewport": {
+        "width": 2560,
+        "height": 1440,
+        "label": "2560px"
+      },
+      "default": "screenshot_2560_default.png",
+      "collapsed": "screenshot_2560_collapsed.png",
+      "focus": "screenshot_2560_focus.png"
+    }
+  ],
+  "timestamp": "2026-11-07T18:29:38.667Z"
+}

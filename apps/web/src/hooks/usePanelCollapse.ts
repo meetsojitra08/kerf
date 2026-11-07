@@ -33,12 +33,24 @@ export function usePanelCollapse(): PanelCollapseState {
         toggleSidePanels();
       }
 
+      // 'f' or 'F' key toggles focus mode (unless modifiers pressed)
+      if ((e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        e.preventDefault();
+        toggleFocusMode();
+      }
+
       // Escape key exits focus mode
       if (e.key === 'Escape' && focusMode) {
         e.preventDefault();
         setFocusMode(false);
       }
     };
+
+    // Expose helpers for automated testing / review
+    if (typeof window !== 'undefined') {
+      (window as unknown as { __toggleSidePanels?: () => void }).__toggleSidePanels = toggleSidePanels;
+      (window as unknown as { __toggleFocusMode?: () => void }).__toggleFocusMode = toggleFocusMode;
+    }
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
