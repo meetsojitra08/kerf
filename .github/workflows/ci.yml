@@ -119,6 +119,11 @@ jobs:
           pnpm install
           uv sync --all-packages
 
+      - name: Run Alembic Migrations
+        run: |
+          cd apps/api
+          uv run alembic upgrade head
+
       - name: Run JS/TS Unit Tests
         run: pnpm test
 
