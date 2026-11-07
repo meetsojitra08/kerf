@@ -21,6 +21,9 @@ members = [
 line-length = 100
 target-version = "py311"
 
+[tool.ruff.lint]
+ignore = ["B008"]
+
 [tool.mypy]
 python_version = "3.11"
 strict = true
@@ -29,8 +32,3 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
-
-[dependency-groups]
-dev = [
-    "datamodel-code-generator>=0.91.0",
-]

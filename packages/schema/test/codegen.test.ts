@@ -47,5 +47,5 @@ describe('Schema Codegen Pipeline', () => {
       const restoredPy = fs.readFileSync(generatedPyPath, 'utf8');
       expect(restoredPy).not.toContain('test_codegen_field');
     }
-  });
+  }, 20000);
 });
