@@ -1,11 +1,13 @@
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from typing import Any
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from kerf.auth.router import router as auth_router
 from kerf.db.session import init_db
+from kerf.queue import enqueue_job
 from kerf.routes.projects import router as projects_router
 
 
@@ -40,3 +42,9 @@ app.include_router(projects_router, prefix="/v1")
 @app.get("/healthz")
 async def healthz() -> dict[str, str]:
     return {"status": "ok", "app": "kerf-api"}
+
+
+@app.post("/health/worker-smoke")
+async def worker_smoke() -> dict[str, Any]:
+    job = await enqueue_job("noop_job")
+    return {"status": "enqueued", "job_id": job.job_id if job else None}

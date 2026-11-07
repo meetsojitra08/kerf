@@ -1,15 +1,22 @@
-import asyncio
 import logging
+import os
+from typing import Any, ClassVar
+
+from arq.connections import RedisSettings
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("kerf_worker")
 
 
-async def main() -> None:
-    logger.info("Kerf arq worker stub initialized.")
-    while True:
-        await asyncio.sleep(3600)
+async def noop_job(ctx: dict[str, Any], *args: Any, **kwargs: Any) -> dict[str, Any]:
+    logger.info("Executing noop_job (smoke test)")
+    return {"status": "ok", "job": "noop"}
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+class WorkerSettings:
+    functions: ClassVar[list[Any]] = [noop_job]
+    redis_settings = RedisSettings.from_dsn(
+        os.getenv("REDIS_URL", "redis://localhost:6379/0")
+    )
+    burst = False
+

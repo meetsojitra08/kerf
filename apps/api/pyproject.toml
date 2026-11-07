@@ -29,11 +29,13 @@ packages = ["kerf"]
 
 [tool.uv.sources]
 kerf-schema = { workspace = true }
+kerf-worker = { workspace = true }
 
 [project.optional-dependencies]
 dev = [
     "pytest>=8.1.0",
     "pytest-asyncio>=0.23.6",
     "ruff>=0.4.0",
-    "mypy>=1.10.0"
+    "mypy>=1.10.0",
+    "kerf-worker"
 ]

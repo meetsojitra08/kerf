@@ -42,5 +42,21 @@ docker compose up -d postgres redis minio
 pnpm dev            # web + api + worker via turbo
 ```
 
+### Running Services & Arq Worker (Phase 1)
+- **Redis, Postgres, and MinIO:**
+  Run in Docker containers:
+  ```bash
+  docker compose up -d postgres redis minio
+  ```
+- **Arq Worker:**
+  Run under WSL2 or containerized Linux for Phase 1 ingest and media processing (FFmpeg):
+  ```bash
+  # Native or WSL2 terminal:
+  uv run arq kerf_worker.main.WorkerSettings
+  # From Windows PowerShell invoking WSL2:
+  wsl -e uv run arq kerf_worker.main.WorkerSettings
+  ```
+  The worker connects to Redis (`REDIS_URL=redis://localhost:6379/0`) and processes queued jobs from the API (`kerf.queue`). Enqueue health can be verified via `POST /health/worker-smoke`.
+
 ## Using Antigravity
 Open the repo root. `AGENTS.md` and `.agent/rules/*` load automatically. Start with the `/bootstrap` workflow, then work through `docs/ROADMAP.md` one task at a time. Commit each task immediately after completing it with `/commit-task <id>`. Use `/new-op` for any new timeline operation and `/ui-review` before merging UI.
