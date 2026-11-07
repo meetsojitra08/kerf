@@ -49,6 +49,14 @@ Postgres 16 (+pgvector) · Redis 7 (queues, pubsub, locks) · S3/MinIO (media, p
 
 **ADR-010 Observability.** OpenTelemetry traces (API→queue→worker propagate `trace_id`), Prometheus metrics, structured logs. Needed to produce the benchmark numbers honestly.
 
+**ADR-011 Development object storage (MinIO distribution and CORS).**
+- *Context:* Browser-originated multipart uploads require an S3-compatible store with strict CORS compliance (exposing `ETag` on `PUT` requests, supporting `OPTIONS` preflight, and accepting multi-part assemblies). Docker Hub deprecated unauthenticated public pulls for `minio/minio` and `minio/mc`.
+- *Alternatives evaluated:*
+  - (A) LocalStack: Feature-complete AWS emulator, but heavier resource footprint, slower cold start in CI, and overkill for S3-only local storage.
+  - (B) Moto / fake-s3 / filesystem mock: Inadequate fidelity for browser-originated presigned multipart uploads and CORS header propagation.
+  - (C) Pinned GHCR MinIO distribution (`ghcr.io/coollabsio/minio` by SHA-256 digest) with bundled `mc` client: Fast, lightweight, zero-credential public pull, exact S3 multipart API parity.
+- *Decision:* Option C. The local development environment uses `ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9` with auto-provisioned bucket `kerf-media` and verified CORS exposition (`ETag` exposed in `Access-Control-Expose-Headers`, `PUT` in `Access-Control-Allow-Methods`, configured via `MINIO_API_CORS_ALLOW_ORIGIN`).
+
 ## Scaling notes
 - API stateless; sticky not required (Redis pub/sub).
 - Workers scale horizontally by queue; separate queues: `ingest`, `index`, `render`, `gen`. GPU optional for ASR/vision.
