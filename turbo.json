@@ -19,7 +19,7 @@
       "dependsOn": ["^build"]
     },
     "codegen": {
-      "outputs": ["src/generated/**", "python/kerf_schema/models.py"]
+      "outputs": ["src/generated/**", "python/kerf_schema/generated/**"]
     }
   }
 }

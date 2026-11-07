@@ -53,7 +53,7 @@ export type {
 
 function generatePython() {
   console.log('[codegen] Generating Pydantic v2 models from JSON Schemas...');
-  const cmd = `uv run datamodel-codegen --input "${schemasDir}" --output "${pyOutputDir}" --output-model-type pydantic_v2.BaseModel`;
+  const cmd = `uv run datamodel-codegen --input "${schemasDir}" --output "${pyOutputDir}" --output-model-type pydantic_v2.BaseModel --disable-timestamp`;
   execSync(cmd, { stdio: 'inherit', cwd: path.resolve(schemaDir, '../..') });
   console.log(`[codegen] Pydantic generated in: ${pyOutputDir}`);
 }

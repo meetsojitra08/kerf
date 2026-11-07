@@ -49,6 +49,11 @@ jobs:
           uv run ruff check .
           uv run mypy apps/api/kerf services/worker/kerf_worker
 
+      - name: Verify Codegen Determinism & Parity
+        run: |
+          pnpm codegen
+          git diff --exit-code
+
   test:
     name: Test Suite
     runs-on: ubuntu-latest
