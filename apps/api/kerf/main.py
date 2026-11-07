@@ -9,6 +9,7 @@ from kerf.auth.router import router as auth_router
 from kerf.config import settings
 from kerf.db.session import init_db
 from kerf.queue import enqueue_job
+from kerf.routes.assets import router as assets_router
 from kerf.routes.projects import router as projects_router
 
 
@@ -37,6 +38,7 @@ app.add_middleware(
 
 app.include_router(auth_router, prefix="/v1")
 app.include_router(projects_router, prefix="/v1")
+app.include_router(assets_router, prefix="/v1")
 
 
 @app.get("/health")

@@ -33,6 +33,29 @@ def ensure_bucket_exists(bucket: str = settings.S3_BUCKET) -> None:
             logger.warning("Could not create S3 bucket %s: %s", bucket, e)
 
 
+def ensure_bucket_lifecycle(bucket: str = settings.S3_BUCKET) -> None:
+    client = get_s3_client(public=False)
+    try:
+        client.put_bucket_lifecycle_configuration(
+            Bucket=bucket,
+            LifecycleConfiguration={
+                "Rules": [
+                    {
+                        "ID": "AbortIncompleteMultipartUploadAfter7Days",
+                        "Status": "Enabled",
+                        "Filter": {"Prefix": ""},
+                        "AbortIncompleteMultipartUpload": {
+                            "DaysAfterInitiation": 7
+                        },
+                    }
+                ]
+            },
+        )
+        logger.info("Configured AbortIncompleteMultipartUpload lifecycle on bucket %s", bucket)
+    except (ClientError, EndpointConnectionError) as e:
+        logger.warning("Could not set bucket lifecycle configuration: %s", e)
+
+
 def create_multipart_upload(
     key: str, bucket: str = settings.S3_BUCKET
 ) -> str:

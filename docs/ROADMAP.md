@@ -11,7 +11,7 @@ Each task = one commit (and PR), with acceptance checks. Work top-down.
 - [x] 0.4 Design tokens + shell layout (empty panels, correct resize/collapse). *AC: `/ui-review` pass.*
 
 ## Phase 1: Upload and ingest
-- [ ] 1.1 Multipart resumable upload (API + client + IndexedDB). *AC: kill tab mid-upload, resume completes; 5 GB file ok.*
+- [x] 1.1 Multipart resumable upload (API + client + IndexedDB). *AC: kill tab mid-upload, resume completes; 5 GB file ok.*
 - [ ] 1.2 Ingest worker: probe, proxy, peaks, sprites. *AC: proxy playable < real-time/10.*
 - [ ] 1.3 WS channel + job progress + upload tray UI.
 
