@@ -1,4 +1,11 @@
+import os
+import sys
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+def _is_testing() -> bool:
+    return "pytest" in sys.modules or os.environ.get("TESTING", "").lower() in ("true", "1", "yes")
 
 
 class Settings(BaseSettings):
@@ -6,13 +13,14 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str = "postgresql+asyncpg://kerf:kerf_secret@localhost:5434/kerf"
     REDIS_URL: str = "redis://localhost:6379/0"
-    
+
     JWT_SECRET: str = "dev_kerf_jwt_secret_key_change_in_production_min32chars"
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRES_MINUTES: int = 1440
 
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
+    TESTING: bool = _is_testing()
 
     S3_ENDPOINT: str = "http://localhost:9010"
     S3_ACCESS_KEY: str = "minioadmin"
