@@ -54,3 +54,7 @@ Postgres 16 (+pgvector) · Redis 7 (queues, pubsub, locks) · S3/MinIO (media, p
 - Workers scale horizontally by queue; separate queues: `ingest`, `index`, `render`, `gen`. GPU optional for ASR/vision.
 - Idempotency keys on every job (`asset_id+stage+version`) so retries are safe.
 - Large objects never pass through API (presigned URLs both ways).
+
+## Infrastructure & Distribution Notes
+- **MinIO Distribution & Digest Pinning (TODO)**: Docker Hub deprecated unauthenticated public pulls for `minio/minio` and `minio/mc`. The local development image is pinned by immutable digest to `ghcr.io/coollabsio/minio@sha256:69b55a1c1c5dc285ce04db96689f5b2102317fc77a50680a1874ca6efd1c87f9` in `docker-compose.yml`. No `:latest` tags are permitted. `minio-init` executes `/usr/bin/mc` from this pinned image to auto-provision the `kerf-media` bucket. TODO: Migrate to official upstream pinned release tag once public access or org registry mirrors are finalized.
+
