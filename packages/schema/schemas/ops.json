@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kerf.dev/schemas/ops.json",
+  "title": "Changeset",
+  "description": "Authoritative schema for Kerf timeline mutation operations and changesets",
+  "type": "object",
+  "required": ["id", "project_id", "origin", "base_revision", "ops", "summary", "status", "created_at"],
+  "properties": {
+    "id": { "$ref": "#/definitions/ULID" },
+    "project_id": { "$ref": "#/definitions/UUID" },
+    "origin": {
+      "type": "string",
+      "enum": ["user", "agent", "system"]
+    },
+    "base_revision": { "type": "integer", "minimum": 0 },
+    "ops": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/OpEnvelope" }
+    },
+    "summary": { "type": "string" },
+    "plan_id": { "$ref": "#/definitions/UUID" },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "committed", "rejected", "undone"]
+    },
+    "created_at": { "type": "string" }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "ULID": {
+      "type": "string",
+      "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$"
+    },
+    "UUID": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "Microseconds": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "SignedMicroseconds": {
+      "type": "integer"
+    },
+    "RippleMode": {
+      "type": "string",
+      "enum": ["none", "track", "all_tracks"],
+      "default": "none"
+    },
+    "AddTrackParams": {
+      "type": "object",
+      "required": ["kind", "name"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["video", "audio", "caption", "overlay", "music"] },
+        "name": { "type": "string" },
+        "index": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "RemoveTrackParams": {
+      "type": "object",
+      "required": ["track_id"],
+      "properties": {
+        "track_id": { "$ref": "#/definitions/ULID" }
+      },
+      "additionalProperties": false
+    },
+    "InsertClipParams": {
+      "type": "object",
+      "required": ["track_id", "start", "duration"],
+      "properties": {
+        "track_id": { "$ref": "#/definitions/ULID" },
+        "asset_id": {
+          "oneOf": [{ "$ref": "#/definitions/UUID" }, { "type": "null" }]
+        },
+        "start": { "$ref": "#/definitions/Microseconds" },
+        "duration": { "$ref": "#/definitions/Microseconds" },
+        "source_in": {
+          "oneOf": [{ "$ref": "#/definitions/Microseconds" }, { "type": "null" }]
+        },
+        "source_out": {
+          "oneOf": [{ "$ref": "#/definitions/Microseconds" }, { "type": "null" }]
+        },
+        "speed": { "type": "number", "default": 1 },
+        "link_group": { "$ref": "#/definitions/ULID" }
+      },
+      "additionalProperties": false
+    },
+    "RemoveClipParams": {
+      "type": "object",
+      "required": ["clip_id"],
+      "properties": {
+        "clip_id": { "$ref": "#/definitions/ULID" }
+      },
+      "additionalProperties": false
+    },
+    "MoveClipParams": {
+      "type": "object",
+      "required": ["clip_id", "to_track_id", "start"],
+      "properties": {
+        "clip_id": { "$ref": "#/definitions/ULID" },
+        "to_track_id": { "$ref": "#/definitions/ULID" },
+        "start": { "$ref": "#/definitions/Microseconds" }
+      },
+      "additionalProperties": false
+    },
+    "TrimClipParams": {
+      "type": "object",
+      "required": ["clip_id", "edge", "delta"],
+      "properties": {
+        "clip_id": { "$ref": "#/definitions/ULID" },
+        "edge": { "type": "string", "enum": ["in", "out"] },
+        "delta": { "$ref": "#/definitions/SignedMicroseconds" }
+      },
+      "additionalProperties": false
+    },
+    "SplitClipParams": {
+      "type": "object",
+      "required": ["clip_id", "at"],
+      "properties": {
+        "clip_id": { "$ref": "#/definitions/ULID" },
+        "at": { "$ref": "#/definitions/Microseconds" },
+        "new_right_clip_id": { "$ref": "#/definitions/ULID" }
+      },
+      "additionalProperties": false
+    },
+    "MergeClipsParams": {
+      "type": "object",
+      "required": ["left_id", "right_id"],
+      "properties": {
+        "left_id": { "$ref": "#/definitions/ULID" },
+        "right_id": { "$ref": "#/definitions/ULID" }
+      },
+      "additionalProperties": false
+    },
+    "RippleDeleteRangeParams": {
+      "type": "object",
+      "required": ["track_ids", "start", "end"],
+      "properties": {
+        "track_ids": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ULID" }
+        },
+        "start": { "$ref": "#/definitions/Microseconds" },
+        "end": { "$ref": "#/definitions/Microseconds" }
+      },
+      "additionalProperties": false
+    },
+    "OpEnvelope": {
+      "type": "object",
+      "required": ["op", "id", "params"],
+      "properties": {
+        "op": { "type": "string" },
+        "id": { "$ref": "#/definitions/ULID" },
+        "params": {
+          "oneOf": [
+            { "$ref": "#/definitions/AddTrackParams" },
+            { "$ref": "#/definitions/RemoveTrackParams" },
+            { "$ref": "#/definitions/InsertClipParams" },
+            { "$ref": "#/definitions/RemoveClipParams" },
+            { "$ref": "#/definitions/MoveClipParams" },
+            { "$ref": "#/definitions/TrimClipParams" },
+            { "$ref": "#/definitions/SplitClipParams" },
+            { "$ref": "#/definitions/MergeClipsParams" },
+            { "$ref": "#/definitions/RippleDeleteRangeParams" },
+            { "type": "object" }
+          ]
+        },
+        "ripple": { "$ref": "#/definitions/RippleMode" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

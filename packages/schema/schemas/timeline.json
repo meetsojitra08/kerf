@@ -1,0 +1,235 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kerf.dev/schemas/timeline.json",
+  "title": "Timeline",
+  "description": "Authoritative schema for Kerf timeline entities and data model",
+  "type": "object",
+  "required": ["id", "project_id", "revision", "fps", "resolution", "sample_rate", "tracks", "markers"],
+  "properties": {
+    "id": { "$ref": "#/definitions/ULID" },
+    "project_id": { "$ref": "#/definitions/UUID" },
+    "revision": { "type": "integer", "minimum": 0 },
+    "fps": { "$ref": "#/definitions/Fps" },
+    "resolution": { "$ref": "#/definitions/Resolution" },
+    "sample_rate": { "type": "integer", "default": 48000 },
+    "tracks": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/Track" }
+    },
+    "markers": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/Marker" }
+    },
+    "meta": { "type": "object" }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "ULID": {
+      "type": "string",
+      "description": "Universally Unique Lexicographically Sortable Identifier",
+      "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$"
+    },
+    "UUID": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "Microseconds": {
+      "type": "integer",
+      "description": "Time represented in integer microseconds (us)",
+      "minimum": 0
+    },
+    "SignedMicroseconds": {
+      "type": "integer",
+      "description": "Relative time delta in integer microseconds (us)"
+    },
+    "Fps": {
+      "type": "object",
+      "required": ["num", "den"],
+      "properties": {
+        "num": { "type": "integer", "minimum": 1 },
+        "den": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "Resolution": {
+      "type": "object",
+      "required": ["w", "h"],
+      "properties": {
+        "w": { "type": "integer", "minimum": 1 },
+        "h": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "Transform": {
+      "type": "object",
+      "properties": {
+        "x": { "type": "number", "default": 0 },
+        "y": { "type": "number", "default": 0 },
+        "scale": { "type": "number", "default": 1 },
+        "rotation": { "type": "number", "default": 0 },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1, "default": 1 }
+      },
+      "additionalProperties": false
+    },
+    "AudioProps": {
+      "type": "object",
+      "properties": {
+        "volume": { "type": "number", "minimum": 0, "default": 1 },
+        "pan": { "type": "number", "minimum": -1, "maximum": 1, "default": 0 },
+        "mute": { "type": "boolean", "default": false }
+      },
+      "additionalProperties": false
+    },
+    "Effect": {
+      "type": "object",
+      "required": ["id", "kind", "params"],
+      "properties": {
+        "id": { "$ref": "#/definitions/ULID" },
+        "kind": { "type": "string" },
+        "enabled": { "type": "boolean", "default": true },
+        "params": { "type": "object" }
+      },
+      "additionalProperties": false
+    },
+    "WordHighlight": {
+      "type": "object",
+      "required": ["w", "s", "e"],
+      "properties": {
+        "w": { "type": "string" },
+        "s": { "type": "integer", "minimum": 0 },
+        "e": { "type": "integer", "minimum": 0 },
+        "conf": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "CaptionProps": {
+      "type": "object",
+      "required": ["text"],
+      "properties": {
+        "text": { "type": "string" },
+        "style_id": { "type": "string" },
+        "words": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/WordHighlight" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Provenance": {
+      "type": "object",
+      "required": ["source"],
+      "properties": {
+        "source": { "type": "string", "enum": ["user", "agent", "generated"] },
+        "provider": { "type": "string" },
+        "prompt": { "type": "string" },
+        "parent_clip_id": { "$ref": "#/definitions/ULID" }
+      },
+      "additionalProperties": false
+    },
+    "Clip": {
+      "type": "object",
+      "required": ["id", "track_id", "start", "duration"],
+      "properties": {
+        "id": { "$ref": "#/definitions/ULID" },
+        "track_id": { "$ref": "#/definitions/ULID" },
+        "asset_id": {
+          "oneOf": [{ "$ref": "#/definitions/UUID" }, { "type": "null" }]
+        },
+        "start": { "$ref": "#/definitions/Microseconds" },
+        "duration": { "$ref": "#/definitions/Microseconds" },
+        "source_in": {
+          "oneOf": [{ "$ref": "#/definitions/Microseconds" }, { "type": "null" }]
+        },
+        "source_out": {
+          "oneOf": [{ "$ref": "#/definitions/Microseconds" }, { "type": "null" }]
+        },
+        "speed": { "type": "number", "minimum": 0.01, "default": 1 },
+        "enabled": { "type": "boolean", "default": true },
+        "label": { "type": "string" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "transform": { "$ref": "#/definitions/Transform" },
+        "audio": { "$ref": "#/definitions/AudioProps" },
+        "effects": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Effect" },
+          "default": []
+        },
+        "caption": { "$ref": "#/definitions/CaptionProps" },
+        "provenance": { "$ref": "#/definitions/Provenance" },
+        "link_group": { "$ref": "#/definitions/ULID" }
+      },
+      "additionalProperties": false
+    },
+    "Track": {
+      "type": "object",
+      "required": ["id", "kind", "name", "order", "locked", "muted", "solo", "clips"],
+      "properties": {
+        "id": { "$ref": "#/definitions/ULID" },
+        "kind": {
+          "type": "string",
+          "enum": ["video", "audio", "caption", "overlay", "music"]
+        },
+        "name": { "type": "string" },
+        "order": { "type": "integer", "minimum": 0 },
+        "locked": { "type": "boolean", "default": false },
+        "muted": { "type": "boolean", "default": false },
+        "solo": { "type": "boolean", "default": false },
+        "height": { "type": "integer", "minimum": 20 },
+        "clips": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Clip" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Marker": {
+      "type": "object",
+      "required": ["id", "t", "kind", "label", "source"],
+      "properties": {
+        "id": { "$ref": "#/definitions/ULID" },
+        "t": { "$ref": "#/definitions/Microseconds" },
+        "kind": {
+          "type": "string",
+          "enum": ["chapter", "hook", "highlight", "note"]
+        },
+        "label": { "type": "string" },
+        "source": {
+          "type": "string",
+          "enum": ["user", "agent"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "Transition": {
+      "type": "object",
+      "required": ["id", "between", "kind", "duration", "easing"],
+      "properties": {
+        "id": { "$ref": "#/definitions/ULID" },
+        "between": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ULID" },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "kind": { "type": "string" },
+        "duration": { "$ref": "#/definitions/Microseconds" },
+        "easing": { "type": "string", "default": "linear" }
+      },
+      "additionalProperties": false
+    },
+    "Keyframe": {
+      "type": "object",
+      "required": ["property_path", "t", "value"],
+      "properties": {
+        "property_path": { "type": "string" },
+        "t": { "$ref": "#/definitions/SignedMicroseconds" },
+        "value": { "type": "number" },
+        "easing": { "type": "string", "default": "linear" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

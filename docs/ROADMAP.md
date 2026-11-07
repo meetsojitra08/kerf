@@ -6,7 +6,7 @@ Each task = one commit (and PR), with acceptance checks. Work top-down.
 
 ## Phase 0: Foundations
 - [x] 0.1 Monorepo scaffold, compose (postgres+pgvector, redis, minio), CI. *AC: `pnpm dev` boots all; CI green.*
-- [ ] 0.2 `packages/schema` + codegen (TS + Pydantic). *AC: schema change regenerates both.*
+- [x] 0.2 `packages/schema` + codegen (TS + Pydantic). *AC: schema change regenerates both.*
 - [ ] 0.3 Auth (simple email/JWT), project CRUD. *AC: e2e create project.*
 - [ ] 0.4 Design tokens + shell layout (empty panels, correct resize/collapse). *AC: `/ui-review` pass.*
 

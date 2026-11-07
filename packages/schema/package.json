@@ -11,6 +11,7 @@
     "codegen": "node scripts/codegen.mjs"
   },
   "devDependencies": {
+    "json-schema-to-typescript": "^16.0.0",
     "typescript": "^5.8.2",
     "vitest": "^3.0.7"
   }
