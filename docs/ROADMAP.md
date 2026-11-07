@@ -8,7 +8,7 @@ Each task = one commit (and PR), with acceptance checks. Work top-down.
 - [x] 0.1 Monorepo scaffold, compose (postgres+pgvector, redis, minio), CI. *AC: `pnpm dev` boots all; CI green.*
 - [x] 0.2 `packages/schema` + codegen (TS + Pydantic). *AC: schema change regenerates both.*
 - [x] 0.3 Auth (simple email/JWT), project CRUD. *AC: e2e create project.*
-- [ ] 0.4 Design tokens + shell layout (empty panels, correct resize/collapse). *AC: `/ui-review` pass.*
+- [x] 0.4 Design tokens + shell layout (empty panels, correct resize/collapse). *AC: `/ui-review` pass.*
 
 ## Phase 1: Upload and ingest
 - [ ] 1.1 Multipart resumable upload (API + client + IndexedDB). *AC: kill tab mid-upload, resume completes; 5 GB file ok.*

@@ -1,11 +1,8 @@
 import React from 'react';
+import { Shell } from './layout/Shell';
 
 export function App(): React.JSX.Element {
-  return (
-    <div className="kerf-app">
-      <h1>Kerf</h1>
-    </div>
-  );
+  return <Shell />;
 }
 
 export default App;

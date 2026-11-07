@@ -1,0 +1,58 @@
+:root {
+  /* Warm Graphite Palette */
+  --bg-0: #0E0E0C;   /* app background */
+  --bg-1: #151512;   /* panels */
+  --bg-2: #1C1C18;   /* raised / inputs */
+  --bg-3: #26261F;   /* hover */
+  --rule: #2F2F27;   /* hairlines (1px) */
+
+  /* Text & Ink */
+  --text-0: #ECE9DF; /* primary (warm paper) */
+  --text-1: #B9B5A6; /* secondary */
+  --text-2: #7E7B6E; /* tertiary / disabled */
+
+  /* Signature Cut & Agent Accents */
+  --cut: #FF4A2B;    /* signature accent: playhead, cut line, primary action */
+  --cut-dim: rgba(255, 74, 43, 0.133); /* #FF4A2B22 */
+  --agent: #D8C46A;  /* agent authorship (ochre) */
+
+  /* Semantic Feedback */
+  --ok: #7FB685;
+  --warn: #E0A53A;
+  --err: #E5584B;
+
+  /* Track Families (Muted) */
+  --track-video: #6E8FA6;
+  --track-audio: #7FA37B;
+  --track-music: #A98BB5;
+  --track-caption: #C9A36A;
+  --track-overlay: #B87C6B;
+
+  /* Typography */
+  --font-ui: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-display: "Fraunces", Georgia, serif;
+
+  /* Type Scale */
+  --text-11: 11px;
+  --text-12: 12px;
+  --text-13: 13px; /* UI Default */
+  --text-15: 15px;
+  --text-20: 20px;
+  --text-28: 28px;
+  --text-44: 44px;
+
+  /* Grid & Radius */
+  --unit: 4px;
+  --radius-clip: 2px;
+  --radius-panel: 4px;
+  --radius-none: 0px;
+
+  /* Transitions */
+  --duration-micro: 90ms;
+  --duration-state: 160ms;
+  --duration-panel: 240ms;
+  --duration-agent-settle: 400ms;
+  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-settle: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
