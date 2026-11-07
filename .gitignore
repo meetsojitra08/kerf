@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.venv/
+__pycache__/
+*.pyc
+
+# Build outputs
+dist/
+build/
+.turbo/
+out/
+*.egg-info/
+
+# Environment and secrets
+.env
+.env.local
+*.local
+
+# Logs and databases
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Storage
+minio_data/
+postgres_data/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

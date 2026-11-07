@@ -1,0 +1,11 @@
+{
+  "name": "@kerf/worker",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "uv run python -m kerf_worker.main",
+    "lint": "uv run ruff check",
+    "typecheck": "uv run mypy kerf_worker",
+    "test": "uv run pytest"
+  }
+}
