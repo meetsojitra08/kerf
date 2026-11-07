@@ -14,6 +14,17 @@ describe('Schema Codegen Pipeline', () => {
     expect(fs.existsSync(generatedPyPath)).toBe(true);
   });
 
+  // Note on test timeout (20s):
+  // This test executes `node scripts/codegen.mjs` twice (once to verify forward mutation,
+  // and once in `finally` to restore golden schema state).
+  // Each codegen invocation triggers:
+  //   1) Node.js AST compilation via json-schema-to-typescript for both timeline and ops schemas
+  //   2) Subprocess execution of `uv run datamodel-codegen`, which incurs Python VM startup,
+  //      import of heavy parsing/formatting libraries (Jinja2, Pydantic, Black/isort),
+  //      and disk writes.
+  // On Windows, child process spawning latency (~150-300ms per spawn) and VM initialization
+  // bring each run to ~2.4s (total test duration ~4.8s). This exceeds Vitest's default 5s
+  // timeout threshold, requiring an explicit 20s budget for reliable execution.
   it('regenerates both TS and Python targets when schema changes', () => {
     // 1. Read original schema
     const originalContent = fs.readFileSync(timelineSchemaPath, 'utf8');
